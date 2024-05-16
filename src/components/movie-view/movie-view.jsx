@@ -2,6 +2,13 @@ export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
       <div>
+        {movie.image ? (
+          <img src={movie.image} alt={movie.title} />
+        ) : (
+          <p>No image available</p>
+        )}
+      </div>
+      <div>
         <img src={movie.image} alt={movie.title} />
       </div>
       <div>
@@ -39,4 +46,21 @@ export const MovieView = ({ movie, onBackClick }) => {
       <button onClick={onBackClick}>Back</button>
     </div>
   );
+};
+
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    description: PropTypes.string.isRequired,
+    director: PropTypes.string.isRequired,
+    bio: PropTypes.string,
+    birth: PropTypes.string,
+    death: PropTypes.string,
+    genre: PropTypes.string.isRequired,
+    genre_description: PropTypes.string,
+    releaseDate: PropTypes.instanceOf(Date),
+  }).isRequired,
+  onBackClick: PropTypes.func.isRequired,
 };
