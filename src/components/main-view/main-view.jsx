@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -12,12 +12,26 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  if (!user) {
+    return (
+      <>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
+          }}
+        />
+        or
+        <SignupView />
+      </>
+    );
+  }
+
   useEffect(() => {
     if (!token) {
       return;
     }
-
-    fetch("https://movies-flixmcn-ed96d6a64be1.herokuapp.com", {
+    fetch("https://movies-flixmcn-ed96d6a64be1.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())
@@ -26,7 +40,7 @@ export const MainView = () => {
           return {
             id: movie._id,
             title: movie.Title,
-            image: movie.ImageUrl, // Assuming "imageurl" is "ImageUrl"
+            image: movie.ImageUrl, // Assuming "ImageUrl" is the correct field for the image
             description: movie.Description,
             director: movie.Director.Name, // Extracting director's name
             bio: movie.Director.Bio, // Extracting director's bio
@@ -34,50 +48,67 @@ export const MainView = () => {
             death: movie.Director.Death, // Extracting director's death
             genre: movie.Genre.Name, // Extracting genre name
             genre_description: movie.Genre.Description, // Extracting genre description
-            featured: movie.featured, // Assuming "featured" is a direct property of the movie
+            featured: movie.Featured, // Assuming "Featured" is a direct property of the movie
             releaseDate: new Date(movie.ReleaseDate), // Parsing release date
           };
         });
-        console.log("Movies from API:", moviesFromApi); // Check the transformed movie data
+        console.log(data);
         setMovies(moviesFromApi);
-      })
-      .catch((error) => {
-        console.error("Error fetching movies:", error); // Log any errors
       });
   }, [token]);
 
   if (!user) {
-    return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-            localStorage.setItem("user", JSON.stringify(user));
-            localStorage.setItem("token", token);
-          }}
-        />
-        <p>or</p>
-        <SignupView />
-      </>
-    );
+    return <LoginView onLoggedIn={(user) => setUser(user)} />;
   }
 
   if (selectedMovie) {
     return (
-      <MovieView
-        movie={selectedMovie}
-        onBackClick={() => setSelectedMovie(null)}
-      />
+      <>
+        <button
+          onClick={() => {
+            setUser(null);
+            setToken(null);
+            localStorage.clear();
+          }}
+        >
+          Logout
+        </button>
+        <MovieView
+          movie={selectedMovie}
+          onBackClick={() => setSelectedMovie(null)}
+        />
+      </>
     );
   }
 
   if (movies.length === 0) {
-    return <div>The movie list is empty!</div>;
+    return (
+      <>
+        <button
+          onClick={() => {
+            setUser(null);
+            setToken(null);
+            localStorage.clear();
+          }}
+        >
+          Logout
+        </button>
+        <div>The list is empty!</div>
+      </>
+    );
   }
 
   return (
     <div>
+      <button
+        onClick={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.clear();
+        }}
+      >
+        Logout
+      </button>
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}
@@ -87,17 +118,6 @@ export const MainView = () => {
           }}
         />
       ))}
-
-      <button
-        onClick={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.removeItem("user");
-          localStorage.removeItem("token");
-        }}
-      >
-        Logout
-      </button>
     </div>
   );
 };

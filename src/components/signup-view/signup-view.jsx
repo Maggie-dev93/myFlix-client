@@ -4,32 +4,38 @@ export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [birthDate, setBirthDate] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const isoDate = new Date(birthDate).toISOString();
 
     const data = {
       Username: username,
       Password: password,
       Email: email,
-      Birthday: birthday,
+      BirthDate: isoDate,
     };
 
-    fetch("https://movies-flixmcn-ed96d6a64be1.herokuapp.com", {
-      method: "POST",
+    fetch("https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users", {
+      method: "POST", // Changed to POST
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      if (response.ok) {
-        alert("Signup successful");
-        window.location.reload();
-      } else {
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Signup successful");
+          window.location.reload();
+        } else {
+          alert("Signup failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
         alert("Signup failed");
-      }
-    });
+      });
   };
 
   return (
@@ -66,8 +72,8 @@ export const SignupView = () => {
         Birthday:
         <input
           type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
           required
         />
       </label>
