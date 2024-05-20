@@ -12,25 +12,11 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
-  if (!user) {
-    return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-          }}
-        />
-        or
-        <SignupView />
-      </>
-    );
-  }
-
   useEffect(() => {
     if (!token) {
       return;
     }
+    
     fetch("https://movies-flixmcn-ed96d6a64be1.herokuapp.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -57,8 +43,20 @@ export const MainView = () => {
       });
   }, [token]);
 
-  if (!user) {
-    return <LoginView onLoggedIn={(user) => setUser(user)} />;
+    if (!user) {
+    return (
+      <>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
+            setSelectedMovie(null);
+          }}
+        />
+        or
+        <SignupView />
+      </>
+    );
   }
 
   if (selectedMovie) {
@@ -69,6 +67,7 @@ export const MainView = () => {
             setUser(null);
             setToken(null);
             localStorage.clear();
+            setSelectedMovie(null);
           }}
         >
           Logout
@@ -89,6 +88,7 @@ export const MainView = () => {
             setUser(null);
             setToken(null);
             localStorage.clear();
+            setSelectedMovie(null);
           }}
         >
           Logout
@@ -105,6 +105,7 @@ export const MainView = () => {
           setUser(null);
           setToken(null);
           localStorage.clear();
+          setSelectedMovie(null);
         }}
       >
         Logout
@@ -116,6 +117,7 @@ export const MainView = () => {
           onMovieClick={(newSelectedMovie) => {
             setSelectedMovie(newSelectedMovie);
           }}
+          onBackClick={() => setSelectedMovie(null)}
         />
       ))}
     </div>
