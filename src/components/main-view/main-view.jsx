@@ -26,7 +26,7 @@ export const MainView = () => {
           return {
             id: movie._id,
             title: movie.Title,
-            image: movie.ImageUrl, // Assuming "ImageUrl" is the correct field for the image
+            image: movie.ImagePath, // Assuming "ImageUrl" is the correct field for the image
             description: movie.Description,
             director: movie.Director.Name, // Extracting director's name
             bio: movie.Director.Bio, // Extracting director's bio
