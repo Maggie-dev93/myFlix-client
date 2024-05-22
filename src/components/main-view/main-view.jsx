@@ -3,6 +3,9 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import Row from "react-bootstrap/Row";
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -26,7 +29,7 @@ export const MainView = () => {
           return {
             id: movie._id,
             title: movie.Title,
-            image: movie.ImageUrl, // Assuming "ImageUrl" is the correct field for the image
+            image: movie.ImagePath, // Assuming "ImageUrl" is the correct field for the image
             description: movie.Description,
             director: movie.Director.Name, // Extracting director's name
             bio: movie.Director.Bio, // Extracting director's bio
@@ -43,83 +46,55 @@ export const MainView = () => {
       });
   }, [token]);
 
-    if (!user) {
-    return (
-      <>
-        <LoginView
-          onLoggedIn={(user, token) => {
-            setUser(user);
-            setToken(token);
-            setSelectedMovie(null);
-          }}
-        />
-        or
-        <SignupView />
-      </>
-    );
-  }
-
-  if (selectedMovie) {
-    return (
-      <>
-        <button
-          onClick={() => {
-            setUser(null);
-            setToken(null);
-            localStorage.clear();
-            setSelectedMovie(null);
-          }}
-        >
-          Logout
-        </button>
-        <MovieView
-          movie={selectedMovie}
-          onBackClick={() => setSelectedMovie(null)}
-        />
-      </>
-    );
-  }
-
-  if (movies.length === 0) {
-    return (
-      <>
-        <button
-          onClick={() => {
-            setUser(null);
-            setToken(null);
-            localStorage.clear();
-            setSelectedMovie(null);
-          }}
-        >
-          Logout
-        </button>
-        <div>The list is empty!</div>
-      </>
-    );
-  }
-
   return (
-    <div>
-      <button
-        onClick={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-          setSelectedMovie(null);
-        }}
-      >
-        Logout
-      </button>
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-          onBackClick={() => setSelectedMovie(null)}
-        />
-      ))}
-    </div>
+    <Row className="justify-content-md-center"> 
+      {!user ? (
+        <Col style={{ backgroundColor: '#5B85AA' }} md={5}>
+          <LoginView onLoggedIn={(user) => setUser(user)} />
+          or
+          <SignupView />
+          </Col>
+      ) : (
+        <>
+          <button
+          variant="primary" 
+            onClick={() => {
+              setUser(null);
+              setToken(null);
+              localStorage.clear();
+              setSelectedMovie(null);
+            }}
+          >
+            Logout
+          </button>
+          {selectedMovie ? (
+            <Col md={8} style={{ border: "1px solid black" }}>
+            <MovieView
+              style={{ border: "1px solid green" }}
+              movie={selectedMovie}
+              onBackClick={() => setSelectedMovie(null)}
+            />
+          </Col>
+          ) : movies.length === 0 ? (
+            <div>The list is empty!</div>
+          ) : (
+            <>
+              {movies.map((movie) => (
+                <Col className="mb-5"key={movie.id} md={3}>
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  onMovieClick={(newSelectedMovie) => {
+                    setSelectedMovie(newSelectedMovie);
+                  }}
+                />
+                </Col>
+              ))}
+            </>
+          )}
+        </>
+      )}
+    </Row>
   );
+  
 };
