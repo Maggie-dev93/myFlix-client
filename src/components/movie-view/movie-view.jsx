@@ -1,11 +1,14 @@
 import PropTypes from "prop-types"; // Import PropTypes
+import "./movie-view.scss";
+import Col from 'react-bootstrap/Col';
+
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
-    <div>
-      <div>
+    <div style={{ backgroundColor: '#5B85AA' }}>
+       <div>
         {movie.image ? (
-          <img src={movie.image} alt={movie.title} />
+          <img src={movie.image} alt={movie.title} style={{ width: '100%' }} />
         ) : (
           <p>No image available</p>
         )}
@@ -42,7 +45,16 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Director Death: </span>
         <span>{movie.death}</span>
       </div>
-      <button onClick={onBackClick}>Back</button>
+      <button 
+        onClick={onBackClick} 
+        className="back-button"
+        style={{ 
+          cursor: "pointer", 
+          backgroundColor: '#57636F'
+        }}
+        >
+        Back
+      </button>
     </div>
   );
 };
@@ -51,7 +63,7 @@ MovieView.propTypes = {
   movie: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    image: PropTypes.string,
+    image: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     director: PropTypes.string.isRequired,
     bio: PropTypes.string,
@@ -63,3 +75,4 @@ MovieView.propTypes = {
   }).isRequired,
   onBackClick: PropTypes.func.isRequired,
 };
+
