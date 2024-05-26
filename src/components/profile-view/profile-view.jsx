@@ -7,7 +7,7 @@ export const ProfileView = ({ user }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    
+
     if (!user) {
       setLoading(false);
       return;

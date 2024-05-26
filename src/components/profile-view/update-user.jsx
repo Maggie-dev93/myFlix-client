@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-export const UpdateUser = ({ user, onUserUpdated }) => {
-  const [username, setUsername] = useState(user.Username);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(user.Email);
-  const [birthDate, setBirthDate] = useState(user.BirthDate);
+export const UpdateUser = ({ user, token }) => {
+    const [updatedUsername, setUpdatedUsername] = useState('');
+    const [updatedPassword, setUpdatedPassword] = useState('');
+    const [updatedEmail, setUpdatedEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleUserUpdated = (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem('token');
     const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      BirthDate: birthDate,
+      Username: updatedUsername,
+      Password: UpdatedPassword,
+      Email: updatedEmail,
     };
 
     fetch(`https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users/${user.Username}`, {
@@ -27,9 +26,9 @@ export const UpdateUser = ({ user, onUserUpdated }) => {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((updatedUser) => {
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        onUserUpdated(updatedUser);
+      .then((updatedUsername) => {
+        localStorage.setItem('user', JSON.stringify(updatedUsername));
+        onUserUpdated(user);
       })
       .catch((error) => {
         console.error('Error updating user:', error);
@@ -43,43 +42,37 @@ export const UpdateUser = ({ user, onUserUpdated }) => {
           <h2>Update User Information</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formUsername">
-              <Form.Label>Username</Form.Label>
+              <Form.Label>New Username</Form.Label>
               <Form.Control
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={updatedUsername}
+                onChange={(e) => setUpdatedUsername(e.target.value)}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>New Password</Form.Label>
               <Form.Control
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={updatedPassword}
+                onChange={(e) => setUpdtedPassword(e.target.value)}
                 required
               />
             </Form.Group>
             <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>New Email</Form.Label>
               <Form.Control
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={updatedEmail}
+                onChange={(e) => setUpdatedEmail(e.target.value)}
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formBirthDate">
-              <Form.Label>Birth Date</Form.Label>
-              <Form.Control
-                type="date"
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Update
-            </Button>
+            <Link to={'/profile'}>
+        <Button type='primary' className='mt-3'>
+          Back
+        </Button>
+      </Link>
           </Form>
         </Col>
       </Row>

@@ -50,19 +50,14 @@ export const MainView = () => {
         setMovies(moviesFromApi);
       });
   }, [token]);
-
-  const handleLogout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.clear();
-  };
-
+  
   return (
     <BrowserRouter>
    <NavigationBar
         user={user}
         onLoggedOut={() => {
           setUser(null);
+          localStorage.clear();
         }}
       />
        <Row className="justify-content-md-center">
@@ -129,8 +124,20 @@ export const MainView = () => {
               </>
             }
           />
-         
-
+         <Route
+            path="/user"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  <Col md={8}>
+                    <ProfileView user={user} />
+                  </Col>
+                )}
+              </>
+            }
+          />
         </Routes>
       </Row>
     </BrowserRouter>
