@@ -57,15 +57,15 @@ export const MainView = () => {
     localStorage.clear();
   };
 
-  const handleUserUpdated = (updatedUser) => {
-    setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-  };
-
   return (
     <BrowserRouter>
-          <NavigationBar user={user} onLoggedOut={handleLogout} /> {/* Add NavigationBar */}
-      <Row className="justify-content-md-center mt-4">
+   <NavigationBar
+        user={user}
+        onLoggedOut={() => {
+          setUser(null);
+        }}
+      />
+       <Row className="justify-content-md-center">
         <Routes>
           <Route 
             path="/signup"
@@ -82,7 +82,7 @@ export const MainView = () => {
             }
           />
           <Route
-            path="/users"
+            path="/login"
             element={
               <>
                 {user ? (
@@ -96,11 +96,11 @@ export const MainView = () => {
             }
           />
           <Route
-            path="/movies/:movieId"
+            path= "/movies/:movieId"
             element={
               <>
                 {!user ? (
-                  <Navigate to="/users" replace />
+                  <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
@@ -112,41 +112,13 @@ export const MainView = () => {
             }
           />
           <Route
-            path="/profile"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/users" replace />
-                ) : (
-                  <Col md={8}>
-                    <ProfileView user={user} />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/profile/update"
-            element={
-              <>
-                {!user ? (
-                  <Navigate to="/users" replace />
-                ) : (
-                  <Col md={8}>
-                    <UpdateUser user={user} onUserUpdated={handleUserUpdated} />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
             path="/"
             element={
               <>
                 {!user ? (
-                  <Navigate to="/users" replace />
+                  <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
+                  <Col>The list is empty blah!</Col>
                 ) : (
                   movies.map((movie) => (
                     <Col className="mb-4" key={movie.id} md={3}>
@@ -157,6 +129,8 @@ export const MainView = () => {
               </>
             }
           />
+         
+
         </Routes>
       </Row>
     </BrowserRouter>
