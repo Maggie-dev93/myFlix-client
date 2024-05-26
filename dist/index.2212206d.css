@@ -12017,4 +12017,13 @@ textarea.form-control-lg {
   border-radius: 4px;
   padding: 4px 12px;
 }
+
+.login-form-container, .signup-form-container {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px #0000001a;
+}
 /*# sourceMappingURL=index.2212206d.css.map */
