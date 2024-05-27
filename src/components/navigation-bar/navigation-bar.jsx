@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import logo from '../../img/logo.png';  // Adjust the path based on your file structure
 
@@ -40,9 +40,10 @@ export const NavigationBar = ({ user, movies, handleSearch, query, onLoggedOut }
                 <Nav.Link as={Link} to='/'>
                   Movies
                 </Nav.Link>
-                <Nav.Link as={Link} to='/user'>
-                  Profile
-                </Nav.Link>
+                <NavDropdown title="Profile" id="profile-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/user">View Profile</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/user/settings">Update Profile</NavDropdown.Item>
+            </NavDropdown>
                 <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
               </>
             )}
@@ -52,3 +53,5 @@ export const NavigationBar = ({ user, movies, handleSearch, query, onLoggedOut }
     </Navbar>
   );
 };
+
+export default NavigationBar;

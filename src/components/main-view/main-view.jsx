@@ -138,6 +138,20 @@ export const MainView = () => {
               </>
             }
           />
+            <Route
+      path='/user/settings'
+      element={
+        <>
+          {!user ? (
+            <Navigate to='/login' replace />
+          ) : (
+            <Col md={5}>
+              <UpdateUser user={user} token={token} /> 
+            </Col>
+          )}
+        </>
+      }
+    />
         </Routes>
       </Row>
     </BrowserRouter>

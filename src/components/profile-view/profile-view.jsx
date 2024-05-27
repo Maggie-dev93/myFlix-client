@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 export const ProfileView = ({ user }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -57,6 +58,11 @@ export const ProfileView = ({ user }) => {
                   ))}
                 </ul>
               </Card.Text>
+              <Link to={`/user/settings`}>
+          <Button style={{ backgroundColor: '#57636F' }} variant="link">
+            Update User Profile
+          </Button>
+        </Link>
             </Card.Body>
           </Card>
         </Col>
