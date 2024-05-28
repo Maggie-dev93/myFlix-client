@@ -1,3 +1,20 @@
+.back-button {
+  color: #f5f5f5;
+  background-color: #1e90ff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+
+.login-form-container, .signup-form-container {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px #0000001a;
+}
+
 :root, [data-bs-theme="light"] {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -13188,20 +13205,7 @@ textarea.form-control-lg {
   }
 }
 
-.back-button {
-  color: #f5f5f5;
-  background-color: #1e90ff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 12px;
-}
-
-.login-form-container, .signup-form-container {
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 4px 8px #0000001a;
+.content-padding {
+  padding-top: 20px;
 }
 /*# sourceMappingURL=index.2212206d.css.map */

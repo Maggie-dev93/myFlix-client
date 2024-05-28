@@ -10,7 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+import './main-view.scss';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -60,7 +60,7 @@ export const MainView = () => {
           localStorage.clear();
         }}
       />
-       <Row className="justify-content-md-center">
+       <Row className="justify-content-md-center content-padding">
         <Routes>
           <Route 
             path="/signup"

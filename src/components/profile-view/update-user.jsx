@@ -18,8 +18,13 @@ export const UpdateUser = ({ user, token }) => {
       Email: updatedEmail,
     };
 
+    if (Object.keys(data).length === 0) {
+      alert('Please fill out at least one field to update.');
+      return;
+    }
+
     //sends request to our update endpoint in the back end with a PUT request//
-    fetch(`https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users/${user.user.Username}`, {
+    fetch(`https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users/${user.Username}`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -31,6 +36,7 @@ export const UpdateUser = ({ user, token }) => {
         if (res.ok) {
           res.json();
           alert('Update Successful');
+          localStorage.clear();
           window.location.reload();
         } else {
           alert('Update failed');
@@ -71,7 +77,7 @@ export const UpdateUser = ({ user, token }) => {
         </Button>
       </Form>
       <Link to={'/user'}>
-        <Button variant='primary' className='mt-3'>
+        <Button style={{ backgroundColor: '#57636F', color: 'white' }} variant='primary' className='mt-3'>
           Back
         </Button>
       </Link>
