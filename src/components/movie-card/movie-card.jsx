@@ -39,33 +39,6 @@ export const MovieCard = ({ movie, isFavorite }) => {
         });
     };
 
-    const removeFromFavorites = () => {
-      fetch(
-        `https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users/${user.Username}/movies/${encodeURIComponent(movie.id)}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to remove movie from favorites.");
-          }
-          return response.json();
-        })
-        .then((user) => {
-          alert("Movie removed from favorites successfully!");
-          localStorage.setItem("user", JSON.stringify(user));
-          setUser(user);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-
     if (addTitle) {
       addToFavorites();
       setAddTitle("");
@@ -97,23 +70,13 @@ export const MovieCard = ({ movie, isFavorite }) => {
             Open
           </Button>
         </Link>
-        {isFavorite ? (
-          <Button
-            variant="primary"
-            onClick={handleRemoveFromFavorites}
-            disabled={!token}
-          >
-            Remove from Favorite
-          </Button>
-        ) : (
-          <Button
+        <Button
             variant="primary"
             onClick={handleAddToFavorites}
             disabled={!token}
           >
           Favorite Movie
           </Button>
-        )}
       </Card.Body>
     </Card>
   );

@@ -27575,24 +27575,6 @@ const MovieCard = ({ movie, isFavorite })=>{
                 console.error(error);
             });
         };
-        const removeFromFavorites = ()=>{
-            fetch(`https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users/${user.Username}/movies/${encodeURIComponent(movie.id)}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            }).then((response)=>{
-                if (!response.ok) throw new Error("Failed to remove movie from favorites.");
-                return response.json();
-            }).then((user)=>{
-                alert("Movie removed from favorites successfully!");
-                localStorage.setItem("user", JSON.stringify(user));
-                setUser(user);
-            }).catch((error)=>{
-                console.error(error);
-            });
-        };
         if (addTitle) {
             addToFavorites();
             setAddTitle("");
@@ -27624,7 +27606,7 @@ const MovieCard = ({ movie, isFavorite })=>{
                 src: movie.image
             }, void 0, false, {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 89,
+                lineNumber: 62,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
@@ -27637,7 +27619,7 @@ const MovieCard = ({ movie, isFavorite })=>{
                         children: movie.title
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 91,
+                        lineNumber: 64,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -27651,43 +27633,34 @@ const MovieCard = ({ movie, isFavorite })=>{
                             children: "Open"
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 93,
+                            lineNumber: 66,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 92,
+                        lineNumber: 65,
                         columnNumber: 9
                     }, undefined),
-                    isFavorite ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
-                        variant: "primary",
-                        onClick: handleRemoveFromFavorites,
-                        disabled: !token,
-                        children: "Remove from Favorite"
-                    }, void 0, false, {
-                        fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 101,
-                        columnNumber: 11
-                    }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
                         variant: "primary",
                         onClick: handleAddToFavorites,
                         disabled: !token,
                         children: "Favorite Movie"
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 109,
-                        columnNumber: 11
+                        lineNumber: 73,
+                        columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 90,
+                lineNumber: 63,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/movie-card/movie-card.jsx",
-        lineNumber: 88,
+        lineNumber: 61,
         columnNumber: 5
     }, undefined);
 };
