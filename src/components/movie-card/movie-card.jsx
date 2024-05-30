@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MovieCard = ({ movie, isFavorite }) => {
+export const MovieCard = ({ movie, isFavorite, onRemoveFromFavorites }) => {
   const storedToken = localStorage.getItem("token");
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const [user, setUser] = useState(storedUser ? storedUser : null);
@@ -39,12 +39,35 @@ export const MovieCard = ({ movie, isFavorite }) => {
         });
     };
 
+    const handleRemoveFromFavorites = () => {
+      fetch(`https://movies-flixmcn-ed96d6a64be1.herokuapp.com/users/${user.Username}/movies/${encodeURIComponent(movie.id)}`, 
+      {
+        method: 'DELETE',
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        if (response.ok) {
+          alert('Your movie has been removed');
+          window.location.reload();
+        } else {
+          alert('Error removing movie');
+        }
+      })
+      .catch((error) => {
+        console.error('Error removing movie:', error);
+        alert('Error removing movie');
+      });
+  };
+
     if (addTitle) {
       addToFavorites();
       setAddTitle("");
     }
     if (delTitle) {
-      removeFromFavorites();
+      handleRemoveFromFavorites(); // Call the function to remove the movie from favorites
       setDelTitle("");
     }
   }, [addTitle, delTitle, token, user]);
@@ -71,12 +94,19 @@ export const MovieCard = ({ movie, isFavorite }) => {
           </Button>
         </Link>
         <Button
-            variant="primary"
-            onClick={handleAddToFavorites}
-            disabled={!token}
-          >
+          variant="primary"
+          onClick={handleAddToFavorites}
+          disabled={!token}
+        >
           Favorite Movie
-          </Button>
+        </Button>
+        <Button
+          variant="danger"
+          onClick={handleRemoveFromFavorites} // Call the function to remove the movie from favorites
+          disabled={!token}
+        >
+          Remove from Favorites
+        </Button>
       </Card.Body>
     </Card>
   );
@@ -84,7 +114,7 @@ export const MovieCard = ({ movie, isFavorite }) => {
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired, // Expect a string value for the movie ID
     title: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

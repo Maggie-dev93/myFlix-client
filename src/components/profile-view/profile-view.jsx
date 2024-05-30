@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
-
+import { MovieCard } from "../movie-card/movie-card";
+import { FavoriteMovies } from "./favorite-movies";
 
 export const ProfileView = ({ user, movies, syncUser }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -60,6 +61,10 @@ export const ProfileView = ({ user, movies, syncUser }) => {
     return <div>User not found</div>;
   }
 
+  const favoriteMovies = movies?.length
+    ? movies.filter(m => userInfo.FavoriteMovies.includes(m._id))
+    : [];
+
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -75,11 +80,14 @@ export const ProfileView = ({ user, movies, syncUser }) => {
                 <strong>Birth Date:</strong> {userInfo.BirthDate}
               </Card.Text>
                 <strong>Favorite Movies:</strong>
-                <ul>
-                  {userInfo.FavoriteMovies.map((movieId) => (
-                    <li key={movieId}>{movieId}</li>
-                  ))}
-                </ul>
+                <FavoriteMovies movies={movies} user={userInfo} />
+                <Row>
+                {favoriteMovies.map((movie) => (
+                  <Col key={movie._id} md={4} className="mb-4">
+                    <MovieCard movie={movie} />
+                  </Col>
+                ))}
+              </Row>
               <Link to={`/user/settings`} style={{ textDecoration: 'none' }}> 
           <Button style={{ backgroundColor: '#57636F', color: 'white', marginRight: '10px'  }} variant="link">
             Update User Profile
