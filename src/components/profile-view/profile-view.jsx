@@ -68,7 +68,7 @@ export const ProfileView = ({ user, movies, syncUser }) => {
   return (
     <Container>
       <Row className="justify-content-md-center">
-        <Col md={6}>
+        <Col md={12}>
           <Card style={{ backgroundColor: '#f8f8f8' }}>
             <Card.Header>User Profile</Card.Header>
             <Card.Body>
@@ -83,7 +83,7 @@ export const ProfileView = ({ user, movies, syncUser }) => {
                 <FavoriteMovies movies={movies} user={userInfo} />
                 <Row>
                 {favoriteMovies.map((movie) => (
-                  <Col key={movie._id} md={4} className="mb-4">
+                  <Col key={movie._id} md={6} className="mb-4">
                     <MovieCard movie={movie} />
                   </Col>
                 ))}
