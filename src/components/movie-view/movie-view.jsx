@@ -1,9 +1,20 @@
-import PropTypes from "prop-types"; // Import PropTypes
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom"; // Correct import
 import "./movie-view.scss";
 import Col from 'react-bootstrap/Col';
 
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  
+  console.log("Movie ID from URL:", movieId); // Log movieId
+  console.log("Movies array:", movies); // Log movies array
+  
+  const movie = movies.find((m) => m.id === movieId);
 
-export const MovieView = ({ movie, onBackClick }) => {
+  if (!movie) {
+    return <Col><p>Movie not found</p></Col>;
+  }
+
   return (
     <div style={{ backgroundColor: '#5B85AA' }}>
        <div>
@@ -45,8 +56,8 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Director Death: </span>
         <span>{movie.death}</span>
       </div>
+      <Link to={'/'}>
       <button 
-        onClick={onBackClick} 
         className="back-button"
         style={{ 
           cursor: "pointer", 
@@ -55,24 +66,7 @@ export const MovieView = ({ movie, onBackClick }) => {
         >
         Back
       </button>
+      </Link>
     </div>
   );
 };
-
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    director: PropTypes.string.isRequired,
-    bio: PropTypes.string,
-    birth: PropTypes.string,
-    death: PropTypes.string,
-    genre: PropTypes.string.isRequired,
-    genre_description: PropTypes.string,
-    releaseDate: PropTypes.instanceOf(Date),
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired,
-};
-

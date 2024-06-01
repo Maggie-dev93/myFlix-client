@@ -1,12 +1,17 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import './signup-form.scss';
+import { useNavigate } from "react-router-dom";
+
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthDate, setBirthDate] = useState("");
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,7 +34,7 @@ export const SignupView = () => {
       .then((response) => {
         if (response.ok) {
           alert("Signup successful");
-          window.location.reload();
+          navigate('/login'); // Redirect to the login page
         } else {
           alert("Signup failed");
         }
@@ -41,6 +46,7 @@ export const SignupView = () => {
   };
 
   return (
+    <div className="signup-form-container">
     <form onSubmit={handleSubmit}>
       <Form.Group controlId="formUsername">
       <Form.Label>Username:</Form.Label>
@@ -82,9 +88,10 @@ export const SignupView = () => {
           required
         />
       </Form.Group>
-      <button variant="primary" type="submit">
+      <Button variant="primary" type="submit">
         Submit
-        </button>
+      </Button>
     </form>
+    </div>
   );
 };

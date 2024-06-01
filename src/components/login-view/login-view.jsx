@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Button from 'react-bootstrap/Button';
+import './login-view.scss';
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const handleSubmit = (event) => {
     // this prevents the default behavior of the form which is to reload the entire page
@@ -23,23 +24,29 @@ export const LoginView = ({ onLoggedIn }) => {
       },
       body: JSON.stringify(data),
     })
+    //one liner arrow functions you can omit the return and brackets if function is one line//
     .then((response) => response.json())
     .then((data) => {
-      console.log("Login response: ", data);
+      console.log('Login response: ', data);
       if (data.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
+        //if we find a user assign them to our local storage//
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
+        console.log('successful login');
         onLoggedIn(data.user, data.token);
+        window.location.reload();
       } else {
-        alert("No such user");
+        alert('Username or Password is incorrect');
       }
     })
     .catch((e) => {
-      alert("Something went wrong");
+      console.log(e);
     });
-  };
+};
+
 
   return (
+    <div className="login-form-container">
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formUsername">
         <Form.Label>Username:</Form.Label>
@@ -65,5 +72,6 @@ export const LoginView = ({ onLoggedIn }) => {
         Submit
       </Button>
     </Form>
+    </div>
   );
 };
