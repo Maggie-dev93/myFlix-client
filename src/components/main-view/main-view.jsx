@@ -6,6 +6,7 @@ import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar"; // Import NavigationBar
 import { ProfileView } from "../profile-view/profile-view";
 import { UpdateUser } from '../profile-view/update-user';
+import { SearchBar } from '../searchbar-view/searchbar-view';
 import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -85,6 +86,20 @@ export const MainView = () => {
                 ) : (
                   <Col md={5}>
                     <LoginView onLoggedIn={(user) => setUser(user)} />
+                  </Col>
+                )}
+              </>
+            }
+          />
+           <Route
+            path="/search"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  <Col md={8}>
+                    <SearchBar token={token} />
                   </Col>
                 )}
               </>

@@ -13208,4 +13208,8 @@ textarea.form-control-lg {
 .content-padding {
   padding-top: 20px;
 }
+
+.custom-checkbox .form-check-input[type="checkbox"] {
+  outline: 2px solid #000;
+}
 /*# sourceMappingURL=index.2212206d.css.map */
