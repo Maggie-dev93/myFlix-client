@@ -1,10 +1,21 @@
-import React from 'react';
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import React, { useState } from 'react'; // Import useState
+import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from "react-bootstrap"; // Import Form, FormControl, and Button
 import { Link } from "react-router-dom";
 import logo from '../../img/logo.png';  // Adjust the path based on your file structure
 
+export const NavigationBar = ({ user, handleSearch, onLoggedOut }) => { // Remove duplicated handleSearch prop
+  const [searchInput, setSearchInput] = useState('');
 
-export const NavigationBar = ({ user, movies, handleSearch, query, onLoggedOut }) => {
+  const handleChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleSearch(searchInput);
+    setSearchInput('');
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -41,9 +52,10 @@ export const NavigationBar = ({ user, movies, handleSearch, query, onLoggedOut }
                   Movies
                 </Nav.Link>
                 <NavDropdown title="Profile" id="profile-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/user">View Profile</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/user/settings">Update Profile</NavDropdown.Item>
-            </NavDropdown>
+                  <NavDropdown.Item as={Link} to="/user">View Profile</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/user/settings">Update Profile</NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link as={Link} to="/search">Search</Nav.Link>
                 <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
               </>
             )}
